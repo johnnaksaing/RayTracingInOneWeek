@@ -1,0 +1,13 @@
+# : comments
+
+# no .ppm file
+*.ppm
+
+# no build results
+/RayTracingProject/Debug
+
+# what is this?
+/RayTracingProject/.vs
+
+# 
+/RayTracingProject/RayTracingProject/Debug/*

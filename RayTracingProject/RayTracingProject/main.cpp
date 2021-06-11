@@ -5,10 +5,53 @@
 
 #include <iostream>
 
+//surface: (vec - center)^2 = r^2
+//(P(t) - C)*(P(t) - C) = r^2
+//(A + B*t - C)*(A+B*t-C) = r^2
+//(B*B)*t^2 + (2B(A-C))*t + (A-C)^2-r^2 = 0's det
+/*	| --------------------> : det = 0
+	| ---------***--------> : det = 1
+	|       *       *
+	|      *         *
+	| --------------------> : det = 2
+	|     *           *               */
+double hit_sphere(const point3& center, double radius, const ray& r) {
+	vec3 AmC = r.origin() - center;
+	auto BB = dot(r.direction(),r.direction());
+	auto BAmC2 = 2.0 * dot(r.direction(), AmC);
+	auto AmCAmC = dot(AmC,AmC) - radius * radius;
+
+	auto det = BAmC2 * BAmC2 - 4 * BB * AmCAmC;
+
+	if (det < 0) { return -1; }
+	else // equation's root(one with near-camaera)
+		{ return (-BAmC2 - sqrt(det)) / (2.0 * BB); }
+}
+
+
+//shpere: origin 0,0,-1, radius 0.5
 color ray_color(const ray& r) {
+	auto t = hit_sphere(point3(0,0,-1), 0.5, r);
+
+	if (t > 0.0) {
+		/*
+			|          **** 
+			|       *     .P *  normal(outward to shpere)'s direction = P-C
+			|      *     /    *
+			|			/
+			|     *    C       *   
+		*/
+		// P: ray's point at auto(double) t
+		// C: C is given
+		vec3 normal = unit_vector(r.at(t) - vec3(0,0,-1));
+		
+		// normal: -1~1 , color: 0~1
+		return 0.5*color(normal.x()+1, normal.y()+1, normal.z()+1);
+	}
+	
 	vec3 unit_direction = unit_vector(r.direction());
 
-	auto t = 0.5 * (unit_direction.y() + 1.0);
+	t = 0.5 * (unit_direction.y() + 1.0);
 	return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
 }
 

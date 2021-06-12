@@ -18,14 +18,14 @@
 double hit_sphere(const point3& center, double radius, const ray& r) {
 	vec3 AmC = r.origin() - center;
 	auto BB = dot(r.direction(),r.direction());
-	auto BAmC2 = 2.0 * dot(r.direction(), AmC);
+	auto BAmC = dot(r.direction(), AmC);
 	auto AmCAmC = dot(AmC,AmC) - radius * radius;
 
-	auto det = BAmC2 * BAmC2 - 4 * BB * AmCAmC;
+	auto det = BAmC * BAmC - BB * AmCAmC;
 
 	if (det < 0) { return -1; }
-	else // equation's root(one with near-camaera)
-		{ return (-BAmC2 - sqrt(det)) / (2.0 * BB); }
+	else // equation's root(one with near-camaera) with even number
+		{ return (-BAmC - sqrt(det)) / BB; }
 }
 
 

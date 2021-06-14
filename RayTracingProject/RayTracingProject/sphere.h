@@ -10,7 +10,7 @@ public:
 	double radius;
 
 public:
-	sphere() {};
+	sphere() : center(point3(0,0,0)), radius(0.0) {};
 	sphere(point3 c, double r) :center(c), radius(r) {};
 	~sphere() {};
 	
@@ -50,9 +50,11 @@ bool sphere::hit(const ray& r, double t_min, double t_max, hit_record& rec) cons
 		if (t_min > root || t_max < root) return false;
 	}
 	
-	rec.normal = vec3(r.at(root) - center)/radius;
+	
 	rec.p = r.at(root);
 	rec.t = root;
+	vec3 outward = vec3(r.at(root) - center) / radius;
+	rec.set_face_normal(r,outward);
 
 	return true;
 }

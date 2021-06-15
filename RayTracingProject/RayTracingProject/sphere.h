@@ -18,22 +18,24 @@ public:
 };
 
 
-//surface: (vec - center)^2 = r^2
-//(P(t) - C)*(P(t) - C) = r^2
-//(A + B*t - C)*(A+B*t-C) = r^2
-//(B*B)*t^2 + (2B(A-C))*t + (A-C)^2-r^2 = 0
-//discriminant of even
+
 /*	| --------------------> : det = 0
 	| ---------***--------> : det = 1
 	|       *       *
 	|      *         *
 	| --------------------> : det = 2
 	|     *           *               */
+
+//surface: (vec - center)^2 = r^2
+//(P(t) - C)*(P(t) - C) = r^2
+//(A + B*t - C)*(A+B*t-C) = r^2
+//(B*B)*t^2 + (2B(A-C))*t + (A-C)^2-r^2 = 0
+//discriminant of even
 bool sphere::hit(const ray& r, double t_min, double t_max, hit_record& rec) const {
 	vec3 AmC = r.origin() - center;
 	auto BB = dot(r.direction(), r.direction());
 	auto BAmC = dot(r.direction(), AmC);
-	auto AmCAmC = dot(AmC, AmC) - radius * radius;
+	auto AmCAmC = AmC.length_squared() - radius * radius;
 
 	auto det = BAmC * BAmC - BB * AmCAmC;
 
@@ -46,11 +48,19 @@ bool sphere::hit(const ray& r, double t_min, double t_max, hit_record& rec) cons
 	// return (-BAmC - sqrt(det)) / BB; }
 	auto root = (-BAmC - sqrt(det)) / BB;
 	if (t_min > root || t_max < root) {
-		root = (-BAmC - sqrt(det)) / BB;
+		root = (-BAmC + sqrt(det)) / BB;
 		if (t_min > root || t_max < root) return false;
 	}
 	
-	
+	/*
+		|          ****
+		|       *     .P *  normal(outward to shpere)'s direction = P-C
+		|      *     /    *
+		|			/
+		|     *    C       *
+	*/
+	// P: ray's point at auto(double) t
+	// C: Center is given
 	rec.p = r.at(root);
 	rec.t = root;
 	vec3 outward = vec3(r.at(root) - center) / radius;

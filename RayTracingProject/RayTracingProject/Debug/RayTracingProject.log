@@ -1,2 +1,4 @@
 ﻿  main.cpp
+C:\Users\John Naksaing\Desktop\샾쁠쁠\RayTracingInOneWeek\RayTracingInOneWeek\RayTracingProject\RayTracingProject\utility.h(27,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\John Naksaing\Desktop\샾쁠쁠\RayTracingInOneWeek\RayTracingInOneWeek\RayTracingProject\RayTracingProject\utility.h(28,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
   RayTracingProject.vcxproj -> C:\Users\John Naksaing\Desktop\샾쁠쁠\RayTracingInOneWeek\RayTracingInOneWeek\RayTracingProject\Debug\RayTracingProject.exe

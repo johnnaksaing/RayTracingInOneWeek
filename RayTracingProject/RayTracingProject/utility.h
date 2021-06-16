@@ -7,6 +7,8 @@
 #include <cmath>
 #include <memory>
 #include <limits>
+#include <random>
+#include <assert.h>
 
 //usings
 using std::shared_ptr;
@@ -21,6 +23,22 @@ const double infinity = std::numeric_limits<double>::infinity();
 //utility function
 inline double degrees_to_radian(double degree) {
 	return degree * pi / 180.0;
+}
+
+inline double random_double() {
+	// Returns a random real in [0,1).
+	static std::random_device rd;
+	static std::mt19937 gen(rd());
+
+	static std::uniform_real_distribution<double> dist(0, 1);
+
+	return dist(gen);
+}
+
+inline double random_double(double min, double max) {
+	// Returns a random real in [min,max).
+	assert(max >= min);
+	return min + (max - min) * random_double();
 }
 
 //custom header

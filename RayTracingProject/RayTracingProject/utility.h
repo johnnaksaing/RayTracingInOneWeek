@@ -30,14 +30,15 @@ inline double random_double() {
 	static std::random_device rd;
 	static std::mt19937 gen(rd());
 
-	static std::uniform_real_distribution<double> dist(0, 1);
+	static std::uniform_real_distribution<double> dist(0.0, 1.0);
 
 	return dist(gen);
+
 }
 
 inline double random_double(double min, double max) {
 	// Returns a random real in [min,max).
-	assert(max >= min);
+	//assert(max >= min);
 	return min + (max - min) * random_double();
 }
 

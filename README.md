@@ -8,4 +8,4 @@ Reference : [Ray Tracing in One Weekend](https://raytracing.github.io/)
 추가해볼만한 것: 멀티스레딩, Triangle 추가, Texture loading, 책 2권,3권 하기
 
 Result :  
-[image](./result.png)  
+![image](./result.png)  

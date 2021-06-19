@@ -21,7 +21,7 @@ const double infinity = std::numeric_limits<double>::infinity();
 
 
 //utility function
-inline double degrees_to_radian(double degree) {
+inline double degrees_to_radians(double degree) {
 	return degree * pi / 180.0;
 }
 

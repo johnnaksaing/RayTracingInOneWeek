@@ -150,4 +150,23 @@ ___\./___|__
 vec3 reflect(const vec3& v, const vec3& n) {
 	return v - 2 * dot(v, n) * n;
 }
+
+
+//returns refracted ray using snell's law
+vec3 refract(const vec3& uv, const vec3& n, double etai_over_etat) {
+	auto cos_theta = fmin(dot(-uv,n), 1.0);
+	vec3 R_out_perpendic = etai_over_etat * (uv + cos_theta * n);
+	vec3 R_out_parallel = -sqrt(fabs(1.0 - R_out_perpendic.length_squared())) * n;
+	
+	return R_out_parallel + R_out_perpendic;
+}
+
+//random ray from circle(camera::lookfrom, 1)
+vec3 random_in_unit_disk() {
+	while (true) {
+		auto p = vec3(random_double(-1, 1), random_double(-1, 1), 0);
+		if (p.length_squared() >= 1) continue;
+		return p;
+	}
+}
 #endif
